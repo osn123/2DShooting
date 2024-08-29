@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186065671071902132}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: -0.72, y: 0.18, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214,16 +214,19 @@ MonoBehaviour:
   moveType: 1
   moveSpeed: 1
   BossStopPos: {fileID: 0}
+  shotPattern: 3
   enemyBullet: {fileID: 5748702197174696822, guid: f790c3875bbad9548a6fb4d7568f86c6, type: 3}
   enemyShotSpeed: 5
   enemyFirePos: {fileID: 7247194299937363661}
   enemyShotThreshold: 2
-  enemyShotType: 2
-  enemyShotCount: 3
-  multiWayShotAngle: 15
+  enemyShotCount: 4
+  multiWayShotAngle: 10
   shotVolume: 0.15
   rapidShotCount: 5
   rapidShotInterval: 2
+  rotateAngle: 5
+  rollingShotInterval: 3
+  damageType: 1
   enemyHP: 3
   enemyDamage: 3
   enemyBossDamaged: 9

@@ -14,6 +14,7 @@ TagManager:
   - EnemyGenerator
   - EnemyBoss
   - SoundManager
+  - UI
   layers:
   - Default
   - TransparentFX

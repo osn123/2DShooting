@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public int bossHPCurrent { get; set; }
     SoundManager soundManager;
     #endregion
-    AudioSource audioSource;
+    //AudioSource audioSource;
 
     void Start()
     {

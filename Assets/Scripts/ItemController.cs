@@ -6,7 +6,8 @@ public class ItemController : MonoBehaviour
 {
     #region var-itemParam
 
-    [Header("アイテムの移動の種類")] [SerializeField] int itemType = 0;
+    [Header("アイテムの移動の種類")] [SerializeField] EnumItem itemType;
+    //[Header("アイテムの移動の種類")] [SerializeField] int itemType = 0;
     [Header("アイテムのパラメータ")] [SerializeField] int add_Score = 1000;
     [Header("アイテムの移動スピード")] [SerializeField] float ItemmoveSpeed = 1f;
     [Header("アイテムの回転スピード")] [SerializeField] float ItemmoveRotateSpeed = 1f;
@@ -20,10 +21,16 @@ public class ItemController : MonoBehaviour
 
     #endregion
 
-    enum ItemTypes
+    enum EnumItem
     {
-        addScore, addLife, HPHeal, shotPowerUp, speedUp, shield
+        addScore=0, addLife =1, HPHeal =2, shotPowerUp =3, speedUp =4, shield =5
     }
+    
+    //enum ItemTypes
+    //{
+    //    addScore, addLife, HPHeal, shotPowerUp, speedUp, shield
+    //}
+
     int shotPowerMax = 3;
     Rigidbody2D capsuleRB;
 
@@ -68,7 +75,9 @@ public class ItemController : MonoBehaviour
     void FixedUpdate()
     {
         // アイテムを動かす
-        capsuleRB.velocity = new Vector2(-ItemmoveSpeed, 0);
+        //capsuleRB.velocity = new Vector2(0,-ItemmoveSpeed);
+
+        //capsuleRB.velocity = new Vector2(-ItemmoveSpeed, 0);
         //アイテムを回転させる
         capsuleRB.transform.Rotate(0, 0, ItemmoveRotateSpeed);
     }
@@ -87,14 +96,14 @@ public class ItemController : MonoBehaviour
             AudioSource.PlayClipAtPoint(getItemSE, Camera.main.transform.position, getItemSEVolume);
         }
     }
-    void ItemEffects(int iType)
+    void ItemEffects(EnumItem iType)
     {
         // 接触したアイテムによって効果を振り分ける
 
         switch (iType)
         {
             //スコア加算の場合
-            case (int)ItemTypes.addScore:
+            case EnumItem.addScore:
                 //スコア加算
                 gameManager.ScoreAdd(add_Score);
                 //capsuleRB.velocity = new Vector2(-ItemmoveSpeed + playerRB.transform.position.x, playerRB.transform.position.y - transform.position.y);
@@ -103,20 +112,20 @@ public class ItemController : MonoBehaviour
                 break;
 
             //ライフ加算の場合
-            case (int)ItemTypes.addLife:
+            case EnumItem.addLife:
                 //スコア加算
                 player.RemainingCounter((int)PlayerController.LifeType.add);
 
                 break;
 
             //HP回復の場合
-            case (int)ItemTypes.HPHeal:
+            case EnumItem.HPHeal:
                 //HP回復
                 player.PlayerHPChanged((int)PlayerController.HPCalcType.heal, healItemVolume);
                 break;
 
             //プレイヤーの弾の強さを上げる場合
-            case (int)ItemTypes.shotPowerUp:
+            case EnumItem.shotPowerUp:
                 //プレイヤーの弾の強さを上げる
                 PlayerController.playerShotPower++;
                 //プレイヤーの弾が最大強さの場合
@@ -128,14 +137,14 @@ public class ItemController : MonoBehaviour
                 // player.PlayerHPChanged((int)PlayerController.HPCalcType.heal, healItemVolume, col);
                 break;
 
-            case (int)ItemTypes.speedUp:
+            case EnumItem.speedUp:
                 //HP回復
                 player.PlayerSpeedUp(speedUpItemVolume);
                 capsuleRB.velocity = new Vector2(-ItemmoveSpeed, player.transform.position.y - transform.position.y);
                 capsuleRB.velocity = new Vector2(-ItemmoveSpeed, player.transform.position.y - transform.position.y);
 
                 break;
-            case (int)ItemTypes.shield:
+            case EnumItem.shield:
                 capsuleRB.velocity = new Vector2(-ItemmoveSpeed, player.transform.position.y + transform.position.y);
                 capsuleRB.velocity = new Vector2(-ItemmoveSpeed, player.transform.position.y + transform.position.y);
 

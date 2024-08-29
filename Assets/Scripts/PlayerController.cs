@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -13,7 +14,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Transform playerRespawnPos;
 
-
     [Header("ショット関連")]
     [Header("弾のオブジェクト")] [SerializeField] GameObject[] playerBullet;
     [Header("弾の速さ")] [SerializeField] float bulletSpeed = 10f;
@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("バーチャルスティック")] [SerializeField] VariableJoystick joyStick;
     [Header("爆発エフェクト")] [SerializeField] GameObject playerExplosion;
+
+    Animator animator;
 
     #region RemainingCount
     [Header("プレイヤーの残機")] [SerializeField] int remainingCount = 3;
@@ -40,7 +42,6 @@ public class PlayerController : MonoBehaviour
     [Header("プレイヤーのHPゲージ")] [SerializeField] Slider playerHPGauge;
     [Header("プレイヤーがダメージを受けた時の効果音")] [SerializeField] AudioClip playerDamagedSE;
     [Header("プレイヤーがダメージを受けた時の効果音量")] [SerializeField] float playerDamagedSEVolume = 0.3f;
-
     #endregion
 
     #region var-Shield
@@ -51,11 +52,7 @@ public class PlayerController : MonoBehaviour
     [Header("シールドがダメージを受けた時の効果音量")] [SerializeField] float shieldDamagedSEVolume = 0.3f;
     [Header("シールド破壊の効果音")] [SerializeField] AudioClip shieldBrokenSE;
     [Header("シールド破壊の効果音量")] [SerializeField] float shieldBrokenSEVolume = 0.3f;
-
     #endregion
-
-
-
 
     #region var-External
     [Header("ゲームマネージャー")]
@@ -105,12 +102,30 @@ public class PlayerController : MonoBehaviour
         playerHPCurrent = playerHPMax;
         //HP表示を更新
         PlayerHPDisplay();
-    }
 
+        this.animator = GetComponent<Animator>();
+    }
     void Update()
     {
         // 入力受付
         InputProcess();
+
+        if (moveDirection.x!=0)
+            transform.localScale = new Vector3((int)(moveDirection.x*-1.9), 1, 1);
+
+
+        //if (moveDirection.x>0.3)
+        //{
+        //    transform.localScale = new Vector3(-Mathf.Ceil(moveDirection.x), 1, 1);
+        //    //transform.localScale = new Vector3(Mathf.Ceil() - 1, 1, 1);
+        //}
+        //else
+        //{
+        //    transform.localScale = new Vector3(Mathf.Ceil(moveDirection.x), 1, 1);
+        //    //transform.localScale = new Vector3(1, 1, 1);
+        //}
+
+        this.animator.speed = moveSpeed/3;
 
         // バーチャルスティック処理 ---
         // バーチャルスティックに何らかの入力が合った場合
@@ -158,14 +173,11 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
     void FixedUpdate()
     {
         // プレイヤーを動かす
         PlayerMove();
     }
-
-    // 入力受付
     void InputProcess()
     {
         // 入力を正規化して受け取る
@@ -174,8 +186,6 @@ public class PlayerController : MonoBehaviour
         // 入力を正規化する
         moveDirection = new Vector2(x, y).normalized;
     }
-
-    // プレイヤーを動かす
     void PlayerMove()
     {
         //移動制限
@@ -183,7 +193,6 @@ public class PlayerController : MonoBehaviour
         // プレイヤーを動かす
         playerRB.velocity = moveDirection * moveSpeed;
     }
-    //プレイヤーの移動制限
     void MoveClamp()
     {
         //最後の移動地点を取得
@@ -197,8 +206,6 @@ public class PlayerController : MonoBehaviour
         //プレイヤーの位置を取得した最後の地点にする
         transform.position = playerPos;
     }
-
-    //弾の発射
     void PlayerShot(Transform firePos)
     {
         //弾を生成
@@ -208,16 +215,12 @@ public class PlayerController : MonoBehaviour
         //bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
         bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(0,bulletSpeed);
     }
-    // 発射ボタンが押された時のイベント
-    public void OnPointerDown()
+    public void OnPointerDown()    // 発射ボタンが押された時のイベント
     {
         // 発射ボタンのフラグを変更
         isShotPressed = true;
     }
-
-
-    // 発射ボタンが元に戻った時のイベント
-    public void OnPointerUp()
+    public void OnPointerUp()   // 発射ボタンが元に戻った時のイベント
     {
         // 発射ボタンのフラグを変更
         isShotPressed = false;
@@ -260,7 +263,6 @@ public class PlayerController : MonoBehaviour
             //PlayerExplosion(collision);
         }
     }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
 
@@ -283,10 +285,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
-
-    // 爆発演出
-    void PlayerExplosion(Collider2D collision)
+    void PlayerExplosion(Collider2D collision)    // 爆発演出
     {
         // プレイヤーの位置に爆発オブジェクトを作成
         Instantiate(playerExplosion, playerPos, Quaternion.identity);
@@ -300,15 +299,11 @@ public class PlayerController : MonoBehaviour
         //Continue();
         //RemainingCounter((int)LifeType.minus);
     }
-
-    #region Continue
     void Continue()
     {
         // コンテニューUIを表示
         gameManager.VisibleUI_Continue();
-        #endregion
     }
-
     void RemainingCountInit()
     {
         //残機を初期値にする
@@ -316,7 +311,6 @@ public class PlayerController : MonoBehaviour
         //残機ＵＩの更新
         RemainingCountDisplay();
     }
-
     public void RemainingCounter(int countType)
     {
         switch (countType)
@@ -338,9 +332,11 @@ public class PlayerController : MonoBehaviour
                 //残機のＵＩの更新
                 RemainingCountDisplay();
                 // プレイヤーの再登場
+                //DOVirtual.DelayedCall(2, () => PlayerRespawn(playerRespawnPos));
                 PlayerRespawn(playerRespawnPos);
+                //StartCoroutine(PlayerRespawn(playerRespawnPos));
                 //コルーチン開始：無敵
-                StartCoroutine(Invincible());
+                //StartCoroutine(Invincible());
                 break;
 
             case (int)LifeType.add:
@@ -384,7 +380,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
     void PlayerRespawn(Transform respawnPosition)
     {
         //プレイヤーの位置を初期位置にする
@@ -394,8 +389,13 @@ public class PlayerController : MonoBehaviour
         //HP表示を更新
         PlayerHPDisplay();
 
+        DOVirtual.DelayedCall(1, () => { gameObject.SetActive(true); StartCoroutine(Invincible()); });
+        //DOVirtual.DelayedCall(1, () => gameObject.SetActive(true));
+
+        //yield return new WaitForSeconds(invincibleTime);
+
         //プレイヤーをアクティブ
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
     }
     IEnumerator Invincible()
     {

@@ -1,15 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using DG.Tweening;
+using UnityEngine.UI;
+using System.Linq;
+
 public class Test : MonoBehaviour
 {
+    [Space(20)]
+
     public JobList job;  //列挙型の値を格納する変数
     public enum JobList
     {
         Soldier, Shielder, Archer, Berserker
     }
+
+    [Space(20)]
+    [SerializeField] private Transform cam;
+    [SerializeField] private Vector3 positionStrength;
+    [SerializeField] private Vector3 rotationStrength;
+    public float shakeDuration = 0.3f;
+    [Space(20)]
+
+    public GameObject[] positions;
+    public PathType pathType;
+    public Ease easeType;
+    public float time;
 
     #region ClassEnum
     //public enum ExampleEnum
@@ -33,8 +49,20 @@ public class Test : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(job);
+        transform.DOKill(true);
+        cam.DOKill(true);
 
+        Vector3[] path = positions.Select(x => x.transform.position).ToArray();
+        transform.DOLocalPath(path, time, pathType)
+            .SetEase(easeType)
+            .SetLookAt(0.01f, Vector3.forward)
+            .SetOptions(false);
+
+
+        Debug.Log(JsonUtility.ToJson(job, true));
+        //Debug.Log(job);
+
+        //var prefab=Resources.Load<GameObject>("Prefabs/  ")
         {
 
             //transform.DOMove(
@@ -47,9 +75,15 @@ public class Test : MonoBehaviour
             //    3,      //ジャンプ総数
             //    2.0f);  //演出時間
 
-            transform.DOPunchPosition(
-            new Vector3(1, 1, 1),//パンチングの強さと方向
-            1.0f);//演出時間
+            //transform.DOPunchPosition(
+            //new Vector3(1, 1, 1),//パンチングの強さと方向
+            //1.0f);//演出時間
+
+            //Image image = GetComponent<Image>();
+            //image.DOColor(Color.red, 1.5f);
+
+            //transform.DOMove(new Vector3(4, 0, 0),1f)//演出時間
+            //           .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
 
         }
 
@@ -66,10 +100,15 @@ public class Test : MonoBehaviour
         // メソッド呼び出し
         //     instance.Method1();
     }
-
-    // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetMouseButtonDown(1))
+            CameraShaker();
+    }
+    private void CameraShaker()
+    {
+        cam.DOComplete();
+        //cam.DOShakePosition(shakeDuration, positionStrength);
+        cam.DOShakeRotation(shakeDuration, rotationStrength);
     }
 }

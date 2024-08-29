@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261f1a53ed568a14eb34921f306ddcc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveType: 4
+  moveType: 2
   moveSpeed: 1
   BossStopPos: {fileID: 0}
   enemyBullet: {fileID: 5748702197174696822, guid: f790c3875bbad9548a6fb4d7568f86c6, type: 3}
@@ -195,6 +195,8 @@ MonoBehaviour:
   shotVolume: 0.15
   rapidShotCount: 10
   rapidShotInterval: 2
+  rotateAngle: 5
+  rollingShotInterval: 4
   enemyHP: 5
   enemyDamage: 1
   enemyBossDamaged: 9

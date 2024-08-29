@@ -261,16 +261,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveType: 0
   moveSpeed: 4
+  BossStopPos: {fileID: 0}
+  shotPattern: 5
   enemyBullet: {fileID: 5748702197174696822, guid: 801b8d2892d09c248a670db56056eaaf, type: 3}
   enemyShotSpeed: 4
   enemyFirePos: {fileID: 5804376639740455298}
-  enemyShotThreshold: 1
-  enemyShotType: 2
-  enemyShotCount: 6
+  enemyShotThreshold: 0.32
+  enemyShotCount: 3
   multiWayShotAngle: 15
   shotVolume: 0.15
+  rapidShotCount: 5
+  rapidShotInterval: 1
+  rotateAngle: 5
+  rollingShotInterval: 0.2
+  damageType: 0
   enemyHP: 5
   enemyDamage: 1
+  enemyBossDamaged: 9
   blinkTime: 0.15
   blinkCount: 3
   enemyDamagedSE: {fileID: 8300000, guid: 17e8cf1be22838942acdecad2d40e5b7, type: 3}

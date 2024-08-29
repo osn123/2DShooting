@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(Rigidbody2D))]
-
 public class EnemyController : MonoBehaviour
 {
     #region var-EnemyMove
-
-    [Header("敵の移動の種類")] [SerializeField] int moveType = 0;
+    [Header("敵の移動の種類")] [SerializeField] EnumMoveType moveType;
     [Header("敵の移動スピード")] [SerializeField] float moveSpeed = 1f;
+    #endregion
+
+    #region boss
     [Header("ボスの停止位置")] [SerializeField] Transform BossStopPos;
+    GameManager gameManager;
+
     #endregion
 
     #region var-EnemyShot
+    [Header("敵の弾の発射パターン")] [SerializeField] EnemyShotPattern shotPattern;
     [Header("敵の弾")] [SerializeField] GameObject enemyBullet;    //敵の弾
     [Header("敵の弾の速度")] [SerializeField] float enemyShotSpeed = 5f;    //敵の弾の速度
     [Header("敵の弾の発射位置")] [SerializeField] Transform enemyFirePos;    //敵の弾の発射位置
     [Header("敵の弾の発射間隔")] [SerializeField] float enemyShotThreshold = 1f;    //敵の弾の発射間隔
-    [Header("敵の弾の発射パターン")] [SerializeField] int enemyShotType = 0;    //敵の弾の発射するパターン用
 
     [Header("複数方向へ弾を発射するときの弾数")] [SerializeField] int enemyShotCount = 1;
     [Header("複数方向へ弾を発射するときの角度")] [SerializeField] float multiWayShotAngle = 15f;
@@ -30,16 +32,13 @@ public class EnemyController : MonoBehaviour
     [Header("発射口の回転角度")] [SerializeField] float rotateAngle = 5f;
     [Header("回転撃ちの空白間隔")] [SerializeField] float rollingShotInterval = 4f;
 
-
-
-
+    [Header("敵のダメージの種類")] [SerializeField] EnemyDamageType damageType;
     #endregion
 
     #region var-EnemyHP
     [Header("敵のHP")] [SerializeField] int enemyHP = 1;
     [Header("本体衝突ダメージ")] [SerializeField] int enemyDamage = 1;
     [Header("本体衝突ダメージ")] [SerializeField] int enemyBossDamaged = 9;
-
     #endregion
 
     #region EnemyDamaged
@@ -51,17 +50,13 @@ public class EnemyController : MonoBehaviour
 
     [Header("敵撃墜の効果音")] [SerializeField] AudioClip enemyDeadSE;
     [Header("敵撃墜の効果音量")] [SerializeField] float enemyDeadSEVolume = 0.3f;
-
-
     #endregion
 
     #region var-EnemyExplosion
-
     [Header("爆発エフェクト")] [SerializeField] GameObject enemyExplosion;
     #endregion
 
     #region var-EnemyInternal
-
     Rigidbody2D enemyRB;        // 敵のリジッドボディ
 
     float enemyShotDelayReset = 0, enemyShotDelay = 0;  //弾の発射間隔の初期値、発射間隔の時間
@@ -76,10 +71,12 @@ public class EnemyController : MonoBehaviour
     public static int enemyShotPower = 1;
     int shotCount = 0, shotCountReset = 0;
     bool isShot = true;
+    #endregion
 
-    enum EnemyMoveType
+    #region enum
+    enum EnumMoveType
     {
-        Normal, PlayerFollowY, PlayerAttack, EnemyBoss, NoMove
+        Normal = 0, PlayerFollowY = 1, PlayerAttack = 2, EnemyBoss = 3, NoMove = 4
     }
     enum EnemyShotPattern
     {
@@ -93,11 +90,7 @@ public class EnemyController : MonoBehaviour
     {
         Normal = 1, PlayerFollowY = 2, PlayerAttack = 3, EnemyBoss = 9
     }
-
     #endregion
-
-
-    GameManager gameManager;
 
     void Start()
     {
@@ -148,7 +141,7 @@ public class EnemyController : MonoBehaviour
         // deltaTimeを加算
         enemyShotDelay += Time.deltaTime;
         //速射
-        if (enemyShotType == (int)EnemyShotPattern.PARapidShot)
+        if (shotPattern == EnemyShotPattern.PARapidShot)
         {
             if (isShot)
             {
@@ -162,7 +155,7 @@ public class EnemyController : MonoBehaviour
             }
         }
         //回転
-        else if (enemyShotType == (int)EnemyShotPattern.RollingShot)
+        else if (shotPattern == EnemyShotPattern.RollingShot)
         {
             if (isShot)
             {
@@ -185,44 +178,46 @@ public class EnemyController : MonoBehaviour
             EnemyBulletShot();
         }
     }
-    // Update is called once per frame
     void FixedUpdate()
     {
         // 敵を動かす
         EnemyMove(moveType);
+        //EnemyMove(moveType);
     }
-
-    void EnemyMove(int type_Move)
+    void EnemyMove(EnumMoveType moveType)
     {
-        switch (type_Move)
+        switch (moveType)
         {
-            case (int)EnemyMoveType.Normal:
-                enemyRB.velocity = new Vector2(-moveSpeed, 0);
+            case EnumMoveType.Normal:
+                enemyRB.velocity = new Vector2(0, -moveSpeed);
                 break;
-            case (int)EnemyMoveType.PlayerFollowY:
+
+            case EnumMoveType.PlayerFollowY:
                 //プレイヤーの高さに合わせて追跡
-                enemyRB.velocity = new Vector2(-moveSpeed, player.transform.position.y - transform.position.y);
+                enemyRB.velocity = new Vector2(player.transform.position.x - transform.position.x,
+                    -moveSpeed);
                 break;
 
-            case (int)EnemyMoveType.PlayerAttack:
+            case EnumMoveType.PlayerAttack:
                 //プレイヤーを目標にして追跡
-                enemyRB.velocity = new Vector2(-moveSpeed + player.transform.position.x, player.transform.position.y - transform.position.y);
+                enemyRB.velocity = new Vector2(player.transform.position.x - transform.position.x,
+                    -moveSpeed + player.transform.position.y);
                 break;
 
-            case (int)EnemyMoveType.EnemyBoss:
+            case EnumMoveType.EnemyBoss:
                 //敵に左ベクトル
-                enemyRB.velocity = new Vector2(-moveSpeed, 0);
+                enemyRB.velocity = new Vector2(0, -moveSpeed);
                 //ボスのX座標が停止位置以上になった場合
-                if (BossStopPos.position.x >= gameObject.transform.position.x)
+                if (BossStopPos.position.y >= gameObject.transform.position.y)
                 {
                     //ベクトルを０
                     enemyRB.velocity = Vector2.zero;
-                    enemyRB.velocity = new Vector2(0, player.transform.position.y - transform.position.y);
+                    enemyRB.velocity = new Vector2(player.transform.position.x - transform.position.x, 0);
                 }
                 break;
 
-            case (int)EnemyMoveType.NoMove:
-                break;
+            //case (int)EnemyMoveType.NoMove:
+            //    break;
 
 
             default:
@@ -231,9 +226,8 @@ public class EnemyController : MonoBehaviour
         // 敵に左方向のベクトルを持たせる
         //enemyRB.velocity = new Vector2(-moveSpeed, 0);
     }
-
     void OnTriggerEnter2D(Collider2D collision)
-    // 接触判定
+ 
     {
         // プレイヤーに接触した場合
         if (collision.gameObject.CompareTag("Player"))
@@ -281,28 +275,29 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void EnemyShot(Transform enemyFirePos, int sType)
+    void EnemyShot(Transform enemyFirePos, EnemyShotPattern sType)
     {
         // 弾を生成
 
         switch (sType)
         {
-            case (int)EnemyShotPattern.Normal:
+            case EnemyShotPattern.Normal:
                 GameObject enemyBulletClone = Instantiate(enemyBullet, enemyFirePos.position, Quaternion.identity);
                 //弾の発射時の音量を設定
                 enemyBulletClone.GetComponent<AudioSource>().volume = shotVolume;
 
-                enemyBulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(-enemyShotSpeed, 0);
+                enemyBulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -enemyShotSpeed);
                 break;
-            case (int)EnemyShotPattern.PlayerAim:
+            case EnemyShotPattern.PlayerAim:
                 GameObject enemyBulletClone_PlayerAim = Instantiate(enemyBullet, enemyFirePos.position, Quaternion.identity);
                 //弾の発射時の音量を設定
                 enemyBulletClone_PlayerAim.GetComponent<AudioSource>().volume = shotVolume;
 
-                enemyBulletClone_PlayerAim.GetComponent<Rigidbody2D>().velocity = new Vector2(-enemyShotSpeed,
-                    target.position.y - transform.position.y);
+                enemyBulletClone_PlayerAim.GetComponent<Rigidbody2D>().velocity = new Vector2(
+                    target.position.x - transform.position.x,
+                    -enemyShotSpeed);
                 break;
-            case (int)EnemyShotPattern.multiWay:
+            case EnemyShotPattern.multiWay:
                 //角度をつけて設定した弾数分を発射する
                 for (int i = 0; i < enemyShotCount; i++)
                 {
@@ -313,13 +308,14 @@ public class EnemyController : MonoBehaviour
                     //ベクトルを作成
                     enemyBulletClone_MultiWay.GetComponent<Rigidbody2D>().velocity = new Vector2(
                         //x座標：弾の発射速度
-                        -enemyShotSpeed,
+
                         //y座標：（設定した角度／設定した弾数）ー（設定した角度／設定した弾数）*i
-                        (multiWayShotAngle / enemyShotCount) - (multiWayShotAngle / enemyShotCount) * i);
+                        (multiWayShotAngle / enemyShotCount) - (multiWayShotAngle / enemyShotCount) * i,
+                        -enemyShotSpeed);
                 }
                 break;
 
-            case (int)EnemyShotPattern.PAMultiWay:
+            case EnemyShotPattern.PAMultiWay:
                 //角度をつけて設定した弾数分を発射する
                 for (int i = 0; i < enemyShotCount; i++)
                 {
@@ -330,17 +326,19 @@ public class EnemyController : MonoBehaviour
                     //ベクトルを作成
                     enemyBulletClone_PAMultiWay.GetComponent<Rigidbody2D>().velocity = new Vector2(
                         //x座標：弾の発射速度
-                        -enemyShotSpeed,
+
                         //y座標：ターゲットのy座標ー自身のy座標*i
-                        (target.position.y - transform.position.y) * i);
+                        (target.position.x - transform.position.x) * i,
+                        -enemyShotSpeed
+                        );
                 }
                 break;
 
-            case (int)EnemyShotPattern.PARapidShot:
+            case EnemyShotPattern.PARapidShot:
                 PARapidShot();
                 break;
 
-            case (int)EnemyShotPattern.RollingShot:
+            case EnemyShotPattern.RollingShot:
                 RollingShot();
                 break;
 
@@ -351,8 +349,6 @@ public class EnemyController : MonoBehaviour
         }
         // 弾のRigidbodyに速度ベクトルをつける
     }
-    // 爆発演出
-    //void EnemyExplosion(Collider2D collision)
     void EnemyExplosion()
     {
         // 爆発エフェクトを生成
@@ -367,7 +363,6 @@ public class EnemyController : MonoBehaviour
         // 接触した方（プレイヤー）を非アクティブ
         //collision.gameObject.SetActive(true);
     }
-
     void EnemyHPChanged(int damageType, int volume, Collider2D collider)
     {
         switch (damageType)
@@ -413,7 +408,6 @@ public class EnemyController : MonoBehaviour
                 break;
         }
     }
-
     IEnumerator EnemyDamagedBlink()
     {
         //ダメージを受けた際に指定時間分待つ
@@ -425,7 +419,6 @@ public class EnemyController : MonoBehaviour
         //スプライトレンダラーをオン
         enemySP.enabled = true;
     }
-
     void EnemyBulletShot()
     {
         //発射間隔が閾値以下の場合
@@ -436,24 +429,24 @@ public class EnemyController : MonoBehaviour
         else
         {
             // 弾の発射関数を呼ぶ
-            EnemyShot(enemyFirePos, enemyShotType);
+            EnemyShot(enemyFirePos, shotPattern);
+            //EnemyShot(enemyFirePos, enemyShotType);
         }
         // 発射間隔をリセット
         enemyShotDelay = enemyShotDelayReset;
     }
-
     void PARapidShot()
     {
         GameObject enemyBulletClone_PARapidShot = Instantiate(enemyBullet, enemyFirePos.position, Quaternion.identity);
         //弾の発射時の音量を設定
         enemyBulletClone_PARapidShot.GetComponent<AudioSource>().volume = shotVolume;
         //ベクトルを作成
-        enemyBulletClone_PARapidShot.GetComponent<Rigidbody2D>().velocity = new Vector2(-enemyShotSpeed,
-            target.position.y - transform.position.y);
+        enemyBulletClone_PARapidShot.GetComponent<Rigidbody2D>().velocity = new Vector2(
+            target.position.x - transform.position.x,
+            -enemyShotSpeed);
         //撃った弾数を加算
         shotCount++;
     }
-
     void RollingShot()
     {
         GameObject enemyBulletClone_RollingShot = Instantiate(enemyBullet, enemyFirePos.position, gameObject.transform.rotation);
@@ -461,15 +454,13 @@ public class EnemyController : MonoBehaviour
         enemyBulletClone_RollingShot.GetComponent<AudioSource>().volume = shotVolume;
         //ベクトルを作成
         enemyBulletClone_RollingShot.GetComponent<Rigidbody2D>().velocity = new Vector2(
-            Mathf.Sin(gameObject.transform.rotation.z*rotateAngle)*enemyShotSpeed*2,
-            Mathf.Cos(gameObject.transform.rotation.z*rotateAngle)*enemyShotSpeed*2);
+            Mathf.Sin(gameObject.transform.rotation.z * rotateAngle) * enemyShotSpeed * 2,
+            Mathf.Cos(gameObject.transform.rotation.z * rotateAngle) * enemyShotSpeed * 2);
         //発射ポイントを回転
         gameObject.transform.Rotate(0, 0, rotateAngle);
         //撃った弾数を加算
         shotCount++;
     }
-
-
     IEnumerator ShotInterval(float interval)
     {
         //指定した秒数分待機

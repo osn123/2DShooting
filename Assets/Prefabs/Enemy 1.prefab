@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186065671071902132}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: -0.72, y: 0.18, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,9 +93,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4941382607006519486}
+  - component: {fileID: 3910103781280795929}
   - component: {fileID: 1698229568830678839}
   - component: {fileID: 2242971058965792042}
-  - component: {fileID: 3910103781280795929}
   - component: {fileID: 3409299526230679457}
   m_Layer: 0
   m_Name: Enemy 1
@@ -120,6 +120,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3910103781280795929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5339197605444008461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261f1a53ed568a14eb34921f306ddcc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveType: 0
+  moveSpeed: 1
+  BossStopPos: {fileID: 0}
+  shotPattern: 0
+  enemyBullet: {fileID: 5748702197174696822, guid: f790c3875bbad9548a6fb4d7568f86c6, type: 3}
+  enemyShotSpeed: 5
+  enemyFirePos: {fileID: 7247194299937363661}
+  enemyShotThreshold: 1
+  enemyShotCount: 3
+  multiWayShotAngle: 15
+  shotVolume: 0.15
+  rapidShotCount: 3
+  rapidShotInterval: 2
+  rotateAngle: 5
+  rollingShotInterval: 4
+  damageType: 0
+  enemyHP: 5
+  enemyDamage: 1
+  enemyBossDamaged: 9
+  blinkTime: 0.15
+  blinkCount: 3
+  enemyDamagedSE: {fileID: 8300000, guid: 17e8cf1be22838942acdecad2d40e5b7, type: 3}
+  enemyDamagedSEVolume: 0.3
+  enemyDeadSE: {fileID: 8300000, guid: fcc477905260b8c4d8e4cde25c6042f8, type: 3}
+  enemyDeadSEVolume: 0.2
+  enemyExplosion: {fileID: 2474913304024383197, guid: 39c2dee4029127743b76ac8efa2ea1e8, type: 3}
 --- !u!212 &1698229568830678839
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -199,41 +237,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3910103781280795929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5339197605444008461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 261f1a53ed568a14eb34921f306ddcc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveType: 1
-  moveSpeed: 1
-  BossStopPos: {fileID: 0}
-  enemyBullet: {fileID: 5748702197174696822, guid: f790c3875bbad9548a6fb4d7568f86c6, type: 3}
-  enemyShotSpeed: 5
-  enemyFirePos: {fileID: 7247194299937363661}
-  enemyShotThreshold: 1
-  enemyShotType: 0
-  enemyShotCount: 1
-  multiWayShotAngle: 15
-  shotVolume: 0.15
-  rapidShotCount: 5
-  rapidShotInterval: 2
-  enemyHP: 5
-  enemyDamage: 1
-  enemyBossDamaged: 9
-  blinkTime: 0.15
-  blinkCount: 3
-  enemyDamagedSE: {fileID: 8300000, guid: 17e8cf1be22838942acdecad2d40e5b7, type: 3}
-  enemyDamagedSEVolume: 0.3
-  enemyDeadSE: {fileID: 8300000, guid: fcc477905260b8c4d8e4cde25c6042f8, type: 3}
-  enemyDeadSEVolume: 0.2
-  enemyExplosion: {fileID: 2474913304024383197, guid: 39c2dee4029127743b76ac8efa2ea1e8, type: 3}
 --- !u!58 &3409299526230679457
 CircleCollider2D:
   m_ObjectHideFlags: 0
