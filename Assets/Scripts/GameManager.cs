@@ -12,15 +12,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject UI_Continue;
     [SerializeField] GameObject UI_Pause;       // ゲーム中断のUI
 
-    [SerializeField] TMP_Text UI_score;       // 
+    //[SerializeField] TMP_Text UI_score;       // 
+    [SerializeField] Text UI_score;       // 
     #endregion
 
     #region var_Boss
-
     [Header("ボスのオブジェクト")] [SerializeField] GameObject enemyBoss;
     [Header("ボスの出現位置")] [SerializeField] Transform bossSpawnPoint;
     [Header("ボスの出現スコア")] [SerializeField] int bossSpawnScore = 100;
-
     #endregion
 
     #region var-BossHP
@@ -28,7 +27,6 @@ public class GameManager : MonoBehaviour
     [Header("ボスのHPのUI")] [SerializeField] GameObject UI_BossStatus;
     [Header("ボスのHPのHP(テキスト)")] [SerializeField] TextMeshProUGUI UI_BossHPText;
     [Header("ボスのHPのHP(ゲージ)")] [SerializeField] Slider UI_BossHPGauge;
-
     #endregion
 
     #region var-Internal
@@ -43,7 +41,6 @@ public class GameManager : MonoBehaviour
     public int bossHPCurrent { get; set; }
     SoundManager soundManager;
     #endregion
-    //AudioSource audioSource;
 
     void Start()
     {
@@ -60,12 +57,9 @@ public class GameManager : MonoBehaviour
 
         ScoreInit();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        // Escキーが押された場合
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape))    // Escキーが押された場合
         {
             // ゲーム中断のUIをアクティブ
             UI_Pause.SetActive(true);
@@ -103,19 +97,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (isBossSpawn && bossHPCurrent<=0)
+        if (isBossSpawn && bossHPCurrent <= 0)
         {
             //BGM停止
             soundManager.BGMStop();
         }
     }
-
     void GamePause()
     {
         //一時停止
         Time.timeScale = pause;
     }
-
     public void GamePauseRelease()
     {
         //一時停止を解除
@@ -138,31 +130,27 @@ public class GameManager : MonoBehaviour
         //ステージのリロード
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    #region GameExit
     public void GameExit()
     {
         //ゲーム終了
         Application.Quit();
     }
-    #endregion
-
     void ScoreInit()
     {
         totalScore = scoreMin;
-        UI_score.SetText(totalScore.ToString());
+        UI_score.text=totalScore.ToString();
+        //UI_score.SetText(totalScore.ToString());
     }
     public void ScoreAdd(int addScore)
     {
         totalScore += addScore;
-
         if (totalScore >= scoreMax)
         {
-
             totalScore = scoreMax;
         }
-        UI_score.SetText(totalScore.ToString());
+        UI_score.text=totalScore.ToString();
+        //UI_score.SetText(totalScore.ToString());
     }
-
     public void EnemyBossHPDisplay()
     {
         //ボスのHP（テキスト）を更新
@@ -178,6 +166,5 @@ public class GameManager : MonoBehaviour
         }
         //ボスのHPゲージの現在地を更新
         UI_BossHPGauge.value = bossHPCurrent;
-
     }
 }

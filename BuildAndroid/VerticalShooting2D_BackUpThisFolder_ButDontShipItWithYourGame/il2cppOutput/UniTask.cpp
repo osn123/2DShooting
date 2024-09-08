@@ -11428,10 +11428,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool PlayerLoopTimer_Cysharp_Threading_Tasks_
 	bool V_1 = false;
 	bool V_2 = false;
 	bool V_3 = false;
-	bool V_4 = false;
+	CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED V_4;
+	memset((&V_4), 0, sizeof(V_4));
 	bool V_5 = false;
-	Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272 V_6;
-	memset((&V_6), 0, sizeof(V_6));
+	bool V_6 = false;
+	Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272 V_7;
+	memset((&V_7), 0, sizeof(V_7));
 	{
 		bool L_0 = __this->___isDisposed_7;
 		V_0 = L_0;
@@ -11444,7 +11446,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool PlayerLoopTimer_Cysharp_Threading_Tasks_
 	{
 		__this->___isRunning_5 = (bool)0;
 		V_1 = (bool)0;
-		goto IL_009f;
+		goto IL_00a3;
 	}
 
 IL_001a:
@@ -11460,36 +11462,37 @@ IL_001a:
 	{
 		__this->___isRunning_5 = (bool)0;
 		V_1 = (bool)0;
-		goto IL_009f;
+		goto IL_00a3;
 	}
 
 IL_0030:
 	{
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED* L_4 = (&__this->___cancellationToken_0);
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_4 = __this->___cancellationToken_0;
+		V_4 = L_4;
 		bool L_5;
-		L_5 = CancellationToken_get_IsCancellationRequested_m9744F7A1A82946FDD1DC68E905F1ED826471D350(L_4, NULL);
+		L_5 = CancellationToken_get_IsCancellationRequested_m9744F7A1A82946FDD1DC68E905F1ED826471D350((&V_4), NULL);
 		V_3 = L_5;
 		bool L_6 = V_3;
 		if (!L_6)
 		{
-			goto IL_004b;
+			goto IL_004f;
 		}
 	}
 	{
 		__this->___isRunning_5 = (bool)0;
 		V_1 = (bool)0;
-		goto IL_009f;
+		goto IL_00a3;
 	}
 
-IL_004b:
+IL_004f:
 	{
 		bool L_7;
 		L_7 = VirtualFuncInvoker0< bool >::Invoke(7, __this);
-		V_4 = (bool)((((int32_t)L_7) == ((int32_t)0))? 1 : 0);
-		bool L_8 = V_4;
+		V_5 = (bool)((((int32_t)L_7) == ((int32_t)0))? 1 : 0);
+		bool L_8 = V_5;
 		if (!L_8)
 		{
-			goto IL_009b;
+			goto IL_009f;
 		}
 	}
 	{
@@ -11498,35 +11501,35 @@ IL_004b:
 		NullCheck(L_9);
 		Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline(L_9, L_10, NULL);
 		bool L_11 = __this->___periodic_4;
-		V_5 = L_11;
-		bool L_12 = V_5;
+		V_6 = L_11;
+		bool L_12 = V_6;
 		if (!L_12)
 		{
-			goto IL_008f;
+			goto IL_0093;
 		}
 	}
 	{
-		il2cpp_codegen_initobj((&V_6), sizeof(Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272));
-		Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272 L_13 = V_6;
+		il2cpp_codegen_initobj((&V_7), sizeof(Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272));
+		Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272 L_13 = V_7;
 		VirtualActionInvoker1< Nullable_1_tE151CE1F6892804B41C4004C95CB57020ABB3272 >::Invoke(6, __this, L_13);
 		V_1 = (bool)1;
-		goto IL_009f;
+		goto IL_00a3;
 	}
 
-IL_008f:
+IL_0093:
 	{
 		__this->___isRunning_5 = (bool)0;
 		V_1 = (bool)0;
-		goto IL_009f;
-	}
-
-IL_009b:
-	{
-		V_1 = (bool)1;
-		goto IL_009f;
+		goto IL_00a3;
 	}
 
 IL_009f:
+	{
+		V_1 = (bool)1;
+		goto IL_00a3;
+	}
+
+IL_00a3:
 	{
 		bool L_14 = V_1;
 		return L_14;
@@ -14254,13 +14257,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E1
 		s_Il2CppMethodInitialized = true;
 	}
 	bool V_0 = false;
-	int32_t V_1 = 0;
+	TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A V_1;
+	memset((&V_1), 0, sizeof(V_1));
 	int32_t V_2 = 0;
-	int16_t V_3 = 0;
-	UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 V_4;
-	memset((&V_4), 0, sizeof(V_4));
-	int16_t V_5 = 0;
+	int32_t V_3 = 0;
+	int16_t V_4 = 0;
+	UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 V_5;
+	memset((&V_5), 0, sizeof(V_5));
 	int16_t V_6 = 0;
+	int16_t V_7 = 0;
 	{
 		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_0 = ___0_delayTimeSpan;
 		il2cpp_codegen_runtime_class_init_inline(TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A_il2cpp_TypeInfo_var);
@@ -14271,101 +14276,103 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E1
 		bool L_3 = V_0;
 		if (!L_3)
 		{
-			goto IL_002e;
+			goto IL_0030;
 		}
 	}
 	{
-		String_t* L_4;
-		L_4 = TimeSpan_ToString_m44D5BF48E35E18BB8B99A86B6535DA5E847FFE92((&___0_delayTimeSpan), NULL);
+		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_4 = ___0_delayTimeSpan;
+		V_1 = L_4;
 		String_t* L_5;
-		L_5 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(((String_t*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&_stringLiteral3C05D2F9F116F335A24D25C9D4709DDE353E7010)), L_4, NULL);
-		ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F* L_6 = (ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F*)il2cpp_codegen_object_new(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F_il2cpp_TypeInfo_var)));
-		ArgumentOutOfRangeException__ctor_mBC1D5DEEA1BA41DE77228CB27D6BAFEB6DCCBF4A(L_6, L_5, NULL);
-		IL2CPP_RAISE_MANAGED_EXCEPTION(L_6, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&UniTask_Delay_mDBE9F54246D1E057EF8528601E2A86E451FB4462_RuntimeMethod_var)));
+		L_5 = TimeSpan_ToString_m44D5BF48E35E18BB8B99A86B6535DA5E847FFE92((&V_1), NULL);
+		String_t* L_6;
+		L_6 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(((String_t*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&_stringLiteral3C05D2F9F116F335A24D25C9D4709DDE353E7010)), L_5, NULL);
+		ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F* L_7 = (ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F*)il2cpp_codegen_object_new(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F_il2cpp_TypeInfo_var)));
+		ArgumentOutOfRangeException__ctor_mBC1D5DEEA1BA41DE77228CB27D6BAFEB6DCCBF4A(L_7, L_6, NULL);
+		IL2CPP_RAISE_MANAGED_EXCEPTION(L_7, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&UniTask_Delay_mDBE9F54246D1E057EF8528601E2A86E451FB4462_RuntimeMethod_var)));
 	}
 
-IL_002e:
+IL_0030:
 	{
-		int32_t L_7 = ___1_delayType;
-		V_2 = L_7;
-		int32_t L_8 = V_2;
-		V_1 = L_8;
-		int32_t L_9 = V_1;
-		switch (L_9)
+		int32_t L_8 = ___1_delayType;
+		V_3 = L_8;
+		int32_t L_9 = V_3;
+		V_2 = L_9;
+		int32_t L_10 = V_2;
+		switch (L_10)
 		{
 			case 0:
 			{
-				goto IL_0075;
+				goto IL_0078;
 			}
 			case 1:
 			{
-				goto IL_0046;
+				goto IL_0048;
 			}
 			case 2:
 			{
-				goto IL_005d;
+				goto IL_0060;
 			}
 		}
 	}
 	{
-		goto IL_0075;
+		goto IL_0078;
 	}
 
-IL_0046:
+IL_0048:
 	{
-		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_10 = ___0_delayTimeSpan;
-		int32_t L_11 = ___2_delayTiming;
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_12 = ___3_cancellationToken;
-		bool L_13 = ___4_cancelImmediately;
+		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_11 = ___0_delayTimeSpan;
+		int32_t L_12 = ___2_delayTiming;
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_13 = ___3_cancellationToken;
+		bool L_14 = ___4_cancelImmediately;
 		il2cpp_codegen_runtime_class_init_inline(DelayIgnoreTimeScalePromise_tF71710CD700EFD19D8591E313D25DD24F1DF8973_il2cpp_TypeInfo_var);
-		RuntimeObject* L_14;
-		L_14 = DelayIgnoreTimeScalePromise_Create_mF528197D8221A96419847E0647A31334E04FAA40(L_10, L_11, L_12, L_13, (&V_3), NULL);
-		int16_t L_15 = V_3;
-		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_16;
-		memset((&L_16), 0, sizeof(L_16));
-		UniTask__ctor_m5CBDA4598A89633256BF98AB40B3BA549A4CF84F_inline((&L_16), L_14, L_15, NULL);
-		V_4 = L_16;
-		goto IL_008d;
+		RuntimeObject* L_15;
+		L_15 = DelayIgnoreTimeScalePromise_Create_mF528197D8221A96419847E0647A31334E04FAA40(L_11, L_12, L_13, L_14, (&V_4), NULL);
+		int16_t L_16 = V_4;
+		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_17;
+		memset((&L_17), 0, sizeof(L_17));
+		UniTask__ctor_m5CBDA4598A89633256BF98AB40B3BA549A4CF84F_inline((&L_17), L_15, L_16, NULL);
+		V_5 = L_17;
+		goto IL_0090;
 	}
 
-IL_005d:
+IL_0060:
 	{
-		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_17 = ___0_delayTimeSpan;
-		int32_t L_18 = ___2_delayTiming;
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_19 = ___3_cancellationToken;
-		bool L_20 = ___4_cancelImmediately;
+		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_18 = ___0_delayTimeSpan;
+		int32_t L_19 = ___2_delayTiming;
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_20 = ___3_cancellationToken;
+		bool L_21 = ___4_cancelImmediately;
 		il2cpp_codegen_runtime_class_init_inline(DelayRealtimePromise_t4A561DC97B5304DA316225FD571E814B8415ED6B_il2cpp_TypeInfo_var);
-		RuntimeObject* L_21;
-		L_21 = DelayRealtimePromise_Create_m5ACD0D119D883A0D470F3621E983292C96425439(L_17, L_18, L_19, L_20, (&V_5), NULL);
-		int16_t L_22 = V_5;
-		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_23;
-		memset((&L_23), 0, sizeof(L_23));
-		UniTask__ctor_m5CBDA4598A89633256BF98AB40B3BA549A4CF84F_inline((&L_23), L_21, L_22, NULL);
-		V_4 = L_23;
-		goto IL_008d;
+		RuntimeObject* L_22;
+		L_22 = DelayRealtimePromise_Create_m5ACD0D119D883A0D470F3621E983292C96425439(L_18, L_19, L_20, L_21, (&V_6), NULL);
+		int16_t L_23 = V_6;
+		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_24;
+		memset((&L_24), 0, sizeof(L_24));
+		UniTask__ctor_m5CBDA4598A89633256BF98AB40B3BA549A4CF84F_inline((&L_24), L_22, L_23, NULL);
+		V_5 = L_24;
+		goto IL_0090;
 	}
 
-IL_0075:
+IL_0078:
 	{
-		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_24 = ___0_delayTimeSpan;
-		int32_t L_25 = ___2_delayTiming;
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_26 = ___3_cancellationToken;
-		bool L_27 = ___4_cancelImmediately;
+		TimeSpan_t8195C5B013A2C532FEBDF0B64B6911982E750F5A L_25 = ___0_delayTimeSpan;
+		int32_t L_26 = ___2_delayTiming;
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_27 = ___3_cancellationToken;
+		bool L_28 = ___4_cancelImmediately;
 		il2cpp_codegen_runtime_class_init_inline(DelayPromise_t97BD8455C54514483853D59F8C220C061BFAA7A3_il2cpp_TypeInfo_var);
-		RuntimeObject* L_28;
-		L_28 = DelayPromise_Create_m891B4E88F71B0718965855E39342115543A9C218(L_24, L_25, L_26, L_27, (&V_6), NULL);
-		int16_t L_29 = V_6;
-		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_30;
-		memset((&L_30), 0, sizeof(L_30));
-		UniTask__ctor_m5CBDA4598A89633256BF98AB40B3BA549A4CF84F_inline((&L_30), L_28, L_29, NULL);
-		V_4 = L_30;
-		goto IL_008d;
+		RuntimeObject* L_29;
+		L_29 = DelayPromise_Create_m891B4E88F71B0718965855E39342115543A9C218(L_25, L_26, L_27, L_28, (&V_7), NULL);
+		int16_t L_30 = V_7;
+		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_31;
+		memset((&L_31), 0, sizeof(L_31));
+		UniTask__ctor_m5CBDA4598A89633256BF98AB40B3BA549A4CF84F_inline((&L_31), L_29, L_30, NULL);
+		V_5 = L_31;
+		goto IL_0090;
 	}
 
-IL_008d:
+IL_0090:
 	{
-		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_31 = V_4;
-		return L_31;
+		UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 L_32 = V_5;
+		return L_32;
 	}
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 UniTask_FromException_mC6AC508C727D591C6BE908F2014570963CE9E5EE (Exception_t* ___0_ex, const RuntimeMethod* method) 
@@ -25397,9 +25404,12 @@ IL2CPP_EXTERN_C  bool Awaiter_get_IsCompleted_m8B4E3723A3CC1B1E8359E40C0766081C5
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_GetResult_m8383C6B4850150162ECAA6464603B95FD2231CB2 (Awaiter_t52A3C448B419858C4C6755B60E6565AF33894F5F* __this, const RuntimeMethod* method) 
 {
+	CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED V_0;
+	memset((&V_0), 0, sizeof(V_0));
 	{
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED* L_0 = (&__this->___cancellationToken_1);
-		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3(L_0, NULL);
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_0 = __this->___cancellationToken_1;
+		V_0 = L_0;
+		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3((&V_0), NULL);
 		return;
 	}
 }
@@ -25644,9 +25654,12 @@ IL2CPP_EXTERN_C  bool Awaiter_get_IsCompleted_m86F5D79EB5B73479C076EF6CCB87AB50C
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_GetResult_m4A61D93307B30CD5BB4C60AB9FE37554979E34DE (Awaiter_tAD3B5D20A6F686DBD35F7298D98AAC09C3201739* __this, const RuntimeMethod* method) 
 {
+	CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED V_0;
+	memset((&V_0), 0, sizeof(V_0));
 	{
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED* L_0 = (&__this->___cancellationToken_1);
-		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3(L_0, NULL);
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_0 = __this->___cancellationToken_1;
+		V_0 = L_0;
+		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3((&V_0), NULL);
 		return;
 	}
 }
@@ -26174,9 +26187,12 @@ IL2CPP_EXTERN_C  bool Awaiter_get_IsCompleted_m9FE5B9F4F4FD3A91C3EF001CE7DBF10A7
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_GetResult_mF64A3B59E0F74D96EE3882216DA35F892810140C (Awaiter_t8932972B50A00F50ABE191C462CBE1C063C4D93F* __this, const RuntimeMethod* method) 
 {
+	CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED V_0;
+	memset((&V_0), 0, sizeof(V_0));
 	{
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED* L_0 = (&__this->___cancellationToken_2);
-		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3(L_0, NULL);
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_0 = __this->___cancellationToken_2;
+		V_0 = L_0;
+		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3((&V_0), NULL);
 		return;
 	}
 }
@@ -26499,9 +26515,12 @@ IL2CPP_EXTERN_C  bool Awaiter_get_IsCompleted_m83EEF697D9563038109890CB678E31286
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_GetResult_m770255DE65727F4594A3DDAC445728133C06CDC9 (Awaiter_t4AFAD3693B4EF57559E5B905447DF3292FBD9D55* __this, const RuntimeMethod* method) 
 {
+	CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED V_0;
+	memset((&V_0), 0, sizeof(V_0));
 	{
-		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED* L_0 = (&__this->___cancellationToken_3);
-		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3(L_0, NULL);
+		CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED L_0 = __this->___cancellationToken_3;
+		V_0 = L_0;
+		CancellationToken_ThrowIfCancellationRequested_mB9D952DC6E96FB6E0595FC8E88D3133CDA4382C3((&V_0), NULL);
 		return;
 	}
 }

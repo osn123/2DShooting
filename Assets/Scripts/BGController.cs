@@ -6,16 +6,11 @@ public class BGController : MonoBehaviour
 {
     #region Scroll
     [Header("スクロールの速さ")] [SerializeField] float scrollSpeed = 0.1f;
-    [Header("横方向の背景移動")] [SerializeField] ScrollDirectionX directionX;
-    [Header("縦方向の背景移動")] [SerializeField] ScrollDirectionY directionY;
     //[Header("移動：x方向(1：正/-1：負/0：移動無し)")] [SerializeField] int moveX = 1;
     //[Header("移動：y方向(1：正/-1：負/0：移動無し)")] [SerializeField] int moveY = 1;
     // プレイヤーの動きに追従する場合
     [Header("プレイヤーの動きに追従させる割合")] [SerializeField] float playerMove = 0.01f;
     [Header("動きを追従するオブジェクト")] [SerializeField] GameObject player;
-    #endregion
-
-    #region num
     float scrollMax = 1f;       // スクロールの最終地点（最大値）
     #endregion
 
@@ -25,6 +20,8 @@ public class BGController : MonoBehaviour
     #endregion
 
     #region enum
+    [Header("横方向の背景移動")] [SerializeField] ScrollDirectionX directionX;
+    [Header("縦方向の背景移動")] [SerializeField] ScrollDirectionY directionY;
     enum ScrollDirectionX                                     // 背景移動（X方向）
     {
         NoMove = 0, ToLeft = -1, ToRight = 1           // 動き無し,左→右,右→左

@@ -3966,20 +3966,22 @@ IL_0037:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t RuntimeInspectorCustomEditorAttribute_System_IComparableU3CRuntimeInspectorNamespace_RuntimeInspectorCustomEditorAttributeU3E_CompareTo_m71E8979BA02997A43BFD62C1C1B6FB4CEC41BD0D (RuntimeInspectorCustomEditorAttribute_t71286B8F8BD3423467920D43B369CBA0226178F5* __this, RuntimeInspectorCustomEditorAttribute_t71286B8F8BD3423467920D43B369CBA0226178F5* ___0_other, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
+	int32_t V_1 = 0;
 	{
 		RuntimeInspectorCustomEditorAttribute_t71286B8F8BD3423467920D43B369CBA0226178F5* L_0 = ___0_other;
 		NullCheck(L_0);
-		int32_t* L_1 = (&L_0->___m_inspectedTypeDepth_2);
+		int32_t L_1 = L_0->___m_inspectedTypeDepth_2;
+		V_0 = L_1;
 		int32_t L_2 = __this->___m_inspectedTypeDepth_2;
 		int32_t L_3;
-		L_3 = Int32_CompareTo_mFA011811D4447442ED442B4A507BD4267621C586(L_1, L_2, NULL);
-		V_0 = L_3;
-		goto IL_0015;
+		L_3 = Int32_CompareTo_mFA011811D4447442ED442B4A507BD4267621C586((&V_0), L_2, NULL);
+		V_1 = L_3;
+		goto IL_0018;
 	}
 
-IL_0015:
+IL_0018:
 	{
-		int32_t L_4 = V_0;
+		int32_t L_4 = V_1;
 		return L_4;
 	}
 }

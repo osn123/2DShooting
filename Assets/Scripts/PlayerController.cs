@@ -6,8 +6,10 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class PlayerController : MonoBehaviour
 {
+    #region player
     [Header("移動関連")]
     [Header("Playerの動く速さ")] [SerializeField] float moveSpeed = 1f;
     [Header("移動制限の余白")] [SerializeField] float marginX = 1f, marginY = 1f;
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [Header("爆発エフェクト")] [SerializeField] GameObject playerExplosion;
 
     Animator animator;
+    #endregion
 
     #region RemainingCount
     [Header("プレイヤーの残機")] [SerializeField] int remainingCount = 3;
@@ -31,8 +34,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject[] UI_RemainingCountIcon;
     [SerializeField] float invincibleTime = 2.0f;
     [SerializeField] int invincibleVal = 10;
-
-
     #endregion
 
     #region var-PlayerHP
@@ -59,10 +60,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameManager gameManager;
     #endregion
 
-
-    #region var-Internal
+    #region var-Internal    
     Rigidbody2D playerRB;       // プレイヤーのRigidbody
-    SpriteRenderer playerSR;
+    SpriteRenderer playerSR;    //todo jiojo
     Vector2 moveDirection, min, max;      // プレイヤーのベクトル
     Vector2 playerPos;      // プレイヤーの移動制限用
 
@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
     bool isInvincible = false;
     float bulletInterval;       //弾の発射間隔管理
     bool isShotPressed = false;                             // 発射ボタン管理用
+    bool isShotPressed2 = false;                             // 発射ボタン管理用
 
 
     public enum LifeType
@@ -87,6 +88,17 @@ public class PlayerController : MonoBehaviour
     };
 
     public enum HPCalcType { damage, heal, display, shieldDamaged };
+    #endregion
+
+    #region Damage
+    [SerializeField] GameObject damage;
+    #endregion
+
+    #region mulShot
+    [Header("複数方向へ弾を発射するときの角度")] [SerializeField] float multiWayShotAngle = 15f;
+    [Header("複数方向へ弾を発射するときの弾数")] [SerializeField] int enemyShotCount = 1;
+    [Header("弾を発射するときの音量")] [SerializeField] float shotVolume = 0.2f;
+
     #endregion
 
     void Start()
@@ -104,14 +116,16 @@ public class PlayerController : MonoBehaviour
         PlayerHPDisplay();
 
         this.animator = GetComponent<Animator>();
+
+        // transform.DOShakePosition(duration: 0.3f, strength: 0.25f, vibrato: 30, randomness: 1, snapping: false, fadeOut: true);
     }
     void Update()
     {
         // 入力受付
         InputProcess();
 
-        if (moveDirection.x!=0)
-            transform.localScale = new Vector3((int)(moveDirection.x*-1.9), 1, 1);
+        if (moveDirection.x != 0)
+            transform.localScale = new Vector3((int)(moveDirection.x * -1.9), 1, 1);
 
 
         //if (moveDirection.x>0.3)
@@ -125,7 +139,7 @@ public class PlayerController : MonoBehaviour
         //    //transform.localScale = new Vector3(1, 1, 1);
         //}
 
-        this.animator.speed = moveSpeed/3;
+        this.animator.speed = moveSpeed / 3;
 
         // バーチャルスティック処理 ---
         // バーチャルスティックに何らかの入力が合った場合
@@ -151,6 +165,15 @@ public class PlayerController : MonoBehaviour
         {
             //弾の発射関数を呼ぶ
             PlayerShot(playerFirePos);
+
+            //発射間隔をリセット
+            bulletInterval = 0;
+
+        }
+        if (Input.GetKey(KeyCode.G) || isShotPressed2)
+        {
+            //弾の発射関数を呼ぶ
+            PlayerShot2(playerFirePos);
 
             //発射間隔をリセット
             bulletInterval = 0;
@@ -210,20 +233,47 @@ public class PlayerController : MonoBehaviour
     {
         //弾を生成
         //GameObject bulletClone = Instantiate(playerBullet[playerShotPower - shotPowerInitVal], firePos.position, Quaternion.identity);
-        GameObject bulletClone = Instantiate(playerBullet[playerShotPower - shotPowerInitVal], firePos.position, Quaternion.Euler(0,0,90));
+        GameObject bulletClone = Instantiate(playerBullet[playerShotPower - shotPowerInitVal], firePos.position, Quaternion.Euler(0, 0, 90));
         //弾のRigidbodyに速度ベクトルをつける
         //bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
-        bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(0,bulletSpeed);
+        bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(0, bulletSpeed);
+    }
+    void PlayerShot2(Transform firePos)
+    {
+        for (int i = 0; i < enemyShotCount; i++)
+        {
+        //弾を生成
+        //GameObject bulletClone = Instantiate(playerBullet[playerShotPower - shotPowerInitVal], firePos.position, Quaternion.identity);
+        GameObject bulletClone = Instantiate(playerBullet[playerShotPower - shotPowerInitVal], firePos.position, Quaternion.Euler(0, 0, 90));
+            //弾のRigidbodyに速度ベクトルをつける
+            //弾の発射時の音量を設定
+            bulletClone.GetComponent<AudioSource>().volume = shotVolume / enemyShotCount;
+
+            //bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
+            bulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(
+            (multiWayShotAngle / enemyShotCount) - (multiWayShotAngle / enemyShotCount) * i
+            , bulletSpeed);
+        }
     }
     public void OnPointerDown()    // 発射ボタンが押された時のイベント
     {
         // 発射ボタンのフラグを変更
         isShotPressed = true;
     }
+    public void OnPointerDown2()    // 発射ボタンが押された時のイベント
+    {
+        // 発射ボタンのフラグを変更
+        isShotPressed2 = true;
+    }
     public void OnPointerUp()   // 発射ボタンが元に戻った時のイベント
     {
         // 発射ボタンのフラグを変更
         isShotPressed = false;
+    }
+    public void OnPointerUp2()   // 発射ボタンが元に戻った時のイベント
+    {
+        // 発射ボタンのフラグを変更
+        isShotPressed2 = false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -244,7 +294,10 @@ public class PlayerController : MonoBehaviour
             {
                 //プレイヤーのHP管理
                 PlayerHPChanged((int)HPCalcType.damage, EnemyController.enemyAttackDamage, collision);
+                //transform.DOShakePosition(duration: 0.3f, strength: 0.25f, vibrato: 30, randomness: 1, snapping: false, fadeOut: true);
+                DamageEffect();
             }
+
             // 爆発演出
             //PlayerExplosion(collision);
         }
@@ -258,6 +311,8 @@ public class PlayerController : MonoBehaviour
             else
             {
                 PlayerHPChanged((int)HPCalcType.damage, EnemyController.enemyShotPower, collision);
+
+                DamageEffect();
             }
             // 爆発演出
             //PlayerExplosion(collision);
@@ -265,7 +320,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-
         // 敵の場合
         if (collision.gameObject.CompareTag("EnemyBoss"))
         {
@@ -406,7 +460,6 @@ public class PlayerController : MonoBehaviour
         //無敵フラグをfalse
         isInvincible = false;
     }
-
     void PlayerHPDisplay()
     {
         //HP数字を更新
@@ -489,7 +542,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
     public void PlayerSpeedUp(float speedUpVolume)
     {
         //現在のプレイヤーの速度を加算
@@ -502,7 +554,6 @@ public class PlayerController : MonoBehaviour
         //現在の速度を初期可
         moveSpeed = speedInit;
     }
-
     public void ShieldActive()
     {
         //シールドの現在の耐久値へ初期値を代入
@@ -510,7 +561,6 @@ public class PlayerController : MonoBehaviour
         //シールドをアクティブ
         shield.SetActive(true);
     }
-
     public void ShieldInActive()
     {
         //シールドの現在の耐久値へ初期値を代入
@@ -518,5 +568,17 @@ public class PlayerController : MonoBehaviour
 
         //シールドをアクティブ
         shield.SetActive(false);
+    }
+
+    public void DamageEffect()
+    {
+        transform.DOShakePosition(duration: 0.3f, strength: 0.25f, vibrato: 30, randomness: 1, snapping: false, fadeOut: true);
+       
+        //damage.GetComponent<SpriteRenderer>().enabled = true;
+
+        damage.GetComponent<SpriteRenderer>().DOFade(1, 0.1f).From(0)
+            .SetLoops(4, LoopType.Yoyo).SetEase(Ease.Linear).
+            OnPlay(() => damage.GetComponent<SpriteRenderer>().enabled = true)
+            .OnComplete(() => damage.GetComponent<SpriteRenderer>().enabled = false);
     }
 }

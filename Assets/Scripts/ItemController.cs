@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    #region var-itemParam
 
+    #region var-itemParam
     [Header("アイテムの移動の種類")] [SerializeField] EnumItem itemType;
     //[Header("アイテムの移動の種類")] [SerializeField] int itemType = 0;
     [Header("アイテムのパラメータ")] [SerializeField] int add_Score = 1000;
@@ -17,20 +17,9 @@ public class ItemController : MonoBehaviour
 
     [Header("アイテムの効果:回復")] [SerializeField] int healItemVolume = 3;
     [Header("アイテムの効果:速度")] [SerializeField] float speedUpItemVolume = 5f;
-
-
     #endregion
 
-    enum EnumItem
-    {
-        addScore=0, addLife =1, HPHeal =2, shotPowerUp =3, speedUp =4, shield =5
-    }
-    
-    //enum ItemTypes
-    //{
-    //    addScore, addLife, HPHeal, shotPowerUp, speedUp, shield
-    //}
-
+    #region shot
     int shotPowerMax = 3;
     Rigidbody2D capsuleRB;
 
@@ -38,6 +27,11 @@ public class ItemController : MonoBehaviour
     PlayerController player;
 
     Rigidbody2D playerRB;
+    #endregion
+    enum EnumItem
+    {
+        addScore = 0, addLife = 1, HPHeal = 2, shotPowerUp = 3, speedUp = 4, shield = 5
+    }
 
     void Start()
     {
@@ -48,10 +42,8 @@ public class ItemController : MonoBehaviour
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
 
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-
-
-
     }
+
     //void Update()
     //{
     //    // 弾の発射 ---
@@ -81,9 +73,7 @@ public class ItemController : MonoBehaviour
         //アイテムを回転させる
         capsuleRB.transform.Rotate(0, 0, ItemmoveRotateSpeed);
     }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    // 接触判定
+    void OnTriggerEnter2D(Collider2D collision)    // 接触判定
     {
         // プレイヤーに接触した場合
         if (collision.gameObject.CompareTag("Player"))
@@ -96,10 +86,8 @@ public class ItemController : MonoBehaviour
             AudioSource.PlayClipAtPoint(getItemSE, Camera.main.transform.position, getItemSEVolume);
         }
     }
-    void ItemEffects(EnumItem iType)
+    void ItemEffects(EnumItem iType)    // 接触したアイテムによって効果を振り分ける
     {
-        // 接触したアイテムによって効果を振り分ける
-
         switch (iType)
         {
             //スコア加算の場合
@@ -155,9 +143,12 @@ public class ItemController : MonoBehaviour
                 break;
         }
 
+        #region comment
         //GameObject enemyBulletClone = Instantiate(enemyBullet, enemyFirePos.position, Quaternion.identity);
         // 弾のRigidbodyに速度ベクトルをつける
         //enemyBulletClone.GetComponent<Rigidbody2D>().velocity = new Vector2(-enemyShotSpeed, 0);
+        #endregion
+
     }
     // 爆発演出
     //void EnemyExplosion(Collider2D collision)
@@ -173,5 +164,4 @@ public class ItemController : MonoBehaviour
     //    // 接触した方（プレイヤー）を非アクティブ
     //    collision.gameObject.SetActive(true);
     //}
-
 }

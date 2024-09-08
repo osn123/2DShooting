@@ -5,18 +5,15 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     #region var-EnemyMove
-    [Header("敵の移動の種類")] [SerializeField] EnumMoveType moveType;
     [Header("敵の移動スピード")] [SerializeField] float moveSpeed = 1f;
     #endregion
 
     #region boss
     [Header("ボスの停止位置")] [SerializeField] Transform BossStopPos;
     GameManager gameManager;
-
     #endregion
 
     #region var-EnemyShot
-    [Header("敵の弾の発射パターン")] [SerializeField] EnemyShotPattern shotPattern;
     [Header("敵の弾")] [SerializeField] GameObject enemyBullet;    //敵の弾
     [Header("敵の弾の速度")] [SerializeField] float enemyShotSpeed = 5f;    //敵の弾の速度
     [Header("敵の弾の発射位置")] [SerializeField] Transform enemyFirePos;    //敵の弾の発射位置
@@ -31,8 +28,6 @@ public class EnemyController : MonoBehaviour
 
     [Header("発射口の回転角度")] [SerializeField] float rotateAngle = 5f;
     [Header("回転撃ちの空白間隔")] [SerializeField] float rollingShotInterval = 4f;
-
-    [Header("敵のダメージの種類")] [SerializeField] EnemyDamageType damageType;
     #endregion
 
     #region var-EnemyHP
@@ -74,6 +69,11 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region enum
+    [Header("敵の移動の種類")] [SerializeField] EnumMoveType moveType;
+    [Header("敵の弾の発射パターン")] [SerializeField] EnemyShotPattern shotPattern;
+    [Header("敵のダメージの種類")] [SerializeField] EnemyDamageType damageType;
+
+
     enum EnumMoveType
     {
         Normal = 0, PlayerFollowY = 1, PlayerAttack = 2, EnemyBoss = 3, NoMove = 4
@@ -111,29 +111,6 @@ public class EnemyController : MonoBehaviour
         //ボスの停止位置
         BossStopPos = GameObject.FindWithTag("BossStopPos").GetComponent<Transform>();
 
-        //敵の接触ダメージを設定
-        switch (enemyDamage)
-        {
-            //normalの場合
-            case (int)EnemyAttackDamage.Normal:
-                //接触ダメージを設定
-                enemyAttackDamage = (int)EnemyAttackDamage.Normal;
-                break;
-            case (int)EnemyAttackDamage.PlayerFollowY:
-                //接触ダメージを設定
-                enemyAttackDamage = (int)EnemyAttackDamage.PlayerFollowY;
-                break;
-            case (int)EnemyAttackDamage.PlayerAttack:
-                //接触ダメージを設定
-                enemyAttackDamage = (int)EnemyAttackDamage.PlayerAttack;
-                break;
-            case (int)EnemyAttackDamage.EnemyBoss:
-                //接触ダメージを設定
-                enemyAttackDamage = (int)EnemyAttackDamage.EnemyBoss;
-                break;
-            default:
-                break;
-        }
     }
     void Update()
     {
@@ -227,8 +204,31 @@ public class EnemyController : MonoBehaviour
         //enemyRB.velocity = new Vector2(-moveSpeed, 0);
     }
     void OnTriggerEnter2D(Collider2D collision)
- 
     {
+        //敵の接触ダメージを設定
+        switch (enemyDamage)
+        {
+            //normalの場合
+            case (int)EnemyAttackDamage.Normal:
+                //接触ダメージを設定
+                enemyAttackDamage = (int)EnemyAttackDamage.Normal;
+                break;
+            case (int)EnemyAttackDamage.PlayerFollowY:
+                //接触ダメージを設定
+                enemyAttackDamage = (int)EnemyAttackDamage.PlayerFollowY;
+                break;
+            case (int)EnemyAttackDamage.PlayerAttack:
+                //接触ダメージを設定
+                enemyAttackDamage = (int)EnemyAttackDamage.PlayerAttack;
+                break;
+            case (int)EnemyAttackDamage.EnemyBoss:
+                //接触ダメージを設定
+                enemyAttackDamage = (int)EnemyAttackDamage.EnemyBoss;
+                break;
+            default:
+                break;
+        }
+
         // プレイヤーに接触した場合
         if (collision.gameObject.CompareTag("Player"))
         {

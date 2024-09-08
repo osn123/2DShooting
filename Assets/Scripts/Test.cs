@@ -15,6 +15,7 @@ public class Test : MonoBehaviour
         Soldier, Shielder, Archer, Berserker
     }
 
+    #region camera
     [Space(20)]
     [SerializeField] private Transform cam;
     [SerializeField] private Vector3 positionStrength;
@@ -26,6 +27,7 @@ public class Test : MonoBehaviour
     public PathType pathType;
     public Ease easeType;
     public float time;
+    #endregion
 
     #region ClassEnum
     //public enum ExampleEnum
@@ -48,6 +50,8 @@ public class Test : MonoBehaviour
     #endregion
 
     void Start()
+        ///<summary>jiojo</summary>
+   
     {
         transform.DOKill(true);
         cam.DOKill(true);
@@ -58,13 +62,24 @@ public class Test : MonoBehaviour
             .SetLookAt(0.01f, Vector3.forward)
             .SetOptions(false);
 
-
         Debug.Log(JsonUtility.ToJson(job, true));
+
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.AppendCallback(() => Debug.Log("First message"))
+        .AppendInterval(2f)
+        .AppendCallback(() => Debug.Log("Second message after 2 seconds"))
+        .AppendInterval(1.5f)
+        .AppendCallback(() => Debug.Log("Third message after 1.5 seconds"))
+        .AppendInterval(3f)
+        .AppendCallback(() => Debug.Log("Final message after 3 seconds"));
+
+        sequence.Play();
+
         //Debug.Log(job);
 
         //var prefab=Resources.Load<GameObject>("Prefabs/  ")
         {
-
             //transform.DOMove(
             //new Vector3(4, 0, 0),//終了時の位置
             //1.0f);//演出時間
@@ -84,7 +99,6 @@ public class Test : MonoBehaviour
 
             //transform.DOMove(new Vector3(4, 0, 0),1f)//演出時間
             //           .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
-
         }
 
         //Debug.Log(JobList.);
@@ -105,6 +119,9 @@ public class Test : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             CameraShaker();
     }
+/// <summary>
+/// test
+/// </summary>
     private void CameraShaker()
     {
         cam.DOComplete();

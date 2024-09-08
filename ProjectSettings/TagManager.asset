@@ -15,6 +15,7 @@ TagManager:
   - EnemyBoss
   - SoundManager
   - UI
+  - Damage
   layers:
   - Default
   - TransparentFX

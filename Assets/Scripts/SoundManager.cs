@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    #region bgm
     [Header("入れ替えるBGM")] [SerializeField] AudioClip changeBGM;
     [Header("入れ替えるBGM音量")] [SerializeField] float changeBGMVolume;
     [Header("フェードする時間")] [SerializeField] float fadeTime=3f;
@@ -14,8 +15,8 @@ public class SoundManager : MonoBehaviour
     float volumeMin = 0;
     bool isFadeIn = false, isFadeOut = false;
     bool changeBGMStart = false;
+    #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         //オーディオソースを取得
@@ -23,8 +24,6 @@ public class SoundManager : MonoBehaviour
         //現在の音量を取得
         bgmVolume = audioSource.volume;
     }
-
-    // Update is called once per frame
     void Update()
     {
         //BGM入れ替えフラグがfalse
@@ -54,7 +53,6 @@ public class SoundManager : MonoBehaviour
                 fadeDeltaTime = FadeDeltaTimeReset;
             }
         }
-
         if (isFadeIn)
         {
             fadeDeltaTime += Time.deltaTime;
@@ -83,7 +81,6 @@ public class SoundManager : MonoBehaviour
         changeBGMStart = true;
         isFadeOut = true;
     }
-
     public void BGMStop()
     {
         audioSource.Stop();
