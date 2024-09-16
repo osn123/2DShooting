@@ -1,0 +1,11 @@
+.btn {
+    font-size: 22px;
+    transition-property: scale;
+    transition-duration: 0.2s;
+}
+
+.btn:hover {
+    scale: 1.2 1;
+    transition-property: scale;
+    transition-duration: 0.2s;
+}

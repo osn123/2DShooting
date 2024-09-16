@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/css.uss?fileID=7433441132597879392&amp;guid=22622668bd26f064cb0aff0de5ec7679&amp;type=3#css" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 150px; justify-content: center; margin-left: 30px; margin-right: 30px; margin-top: 30px; margin-bottom: 30px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+        <ui:Button text="Dance" display-tooltip-when-elided="true" name="btnDance" class="btn" />
+        <ui:Button text="Spin" display-tooltip-when-elided="true" name="btnSpin" class="btn" />
+        <ui:Button text="Flip" display-tooltip-when-elided="true" name="btnFlip" class="btn" />
+    </ui:VisualElement>
+</ui:UXML>

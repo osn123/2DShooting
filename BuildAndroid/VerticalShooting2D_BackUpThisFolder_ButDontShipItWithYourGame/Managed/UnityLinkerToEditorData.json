@@ -9,6 +9,14 @@
         "name": "Animation",
         "dependencies": [
           {
+            "name": "Animation",
+            "scenes": [
+              "Assets/Scenes/SampleScene.unity"
+            ],
+            "dependencyType": 0,
+            "icon": null
+          },
+          {
             "name": "AnimationClip",
             "scenes": [
               "Assets/Scenes/SampleScene.unity"

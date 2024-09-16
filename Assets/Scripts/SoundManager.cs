@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     #region bgm
-    [Header("“ü‚ê‘Ö‚¦‚éBGM")] [SerializeField] AudioClip changeBGM;
-    [Header("“ü‚ê‘Ö‚¦‚éBGM‰¹—Ê")] [SerializeField] float changeBGMVolume;
-    [Header("ƒtƒF[ƒh‚·‚éŠÔ")] [SerializeField] float fadeTime=3f;
+    [Header("å…¥ã‚Œæ›¿ãˆã‚‹BGM")] [SerializeField] AudioClip changeBGM;
+    [Header("å…¥ã‚Œæ›¿ãˆã‚‹BGMéŸ³é‡")] [SerializeField] float changeBGMVolume;
+    [Header("ãƒ•ã‚§ãƒ¼ãƒ‰ã™ã‚‹æ™‚é–“")] [SerializeField] float fadeTime=3f;
 
     AudioSource audioSource;
     float bgmVolume = 0;
@@ -19,19 +19,19 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        //ƒI[ƒfƒBƒIƒ\[ƒX‚ğæ“¾
+        //ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚½ãƒ¼ã‚¹ã‚’å–å¾—
         audioSource = GetComponent<AudioSource>();
-        //Œ»İ‚Ì‰¹—Ê‚ğæ“¾
+        //ç¾åœ¨ã®éŸ³é‡ã‚’å–å¾—
         bgmVolume = audioSource.volume;
     }
     void Update()
     {
-        //BGM“ü‚ê‘Ö‚¦ƒtƒ‰ƒO‚ªfalse
+        //BGMå…¥ã‚Œæ›¿ãˆãƒ•ãƒ©ã‚°ãŒfalse
         if (!changeBGMStart)
         {
             if (audioSource==null || changeBGM == null)
             {
-                //ˆ—‚ğ’†’f
+                //å‡¦ç†ã‚’ä¸­æ–­
                 return;
             }
         }

@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject UI_Continue;
     [SerializeField] GameObject UI_Pause;       // ゲーム中断のUI
 
-    //[SerializeField] TMP_Text UI_score;       // 
-    [SerializeField] Text UI_score;       // 
+    [SerializeField] TMP_Text UI_score;       // 
+    //[SerializeField] Text UI_score;       // 
     #endregion
 
     #region var_Boss
