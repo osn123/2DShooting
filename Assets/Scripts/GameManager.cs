@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
     SoundManager soundManager;
     #endregion
 
+    private Vertical2DShooting inputActions;
+
+
     void Start()
     {
         //#if PLATFORM_STANDALONE_WIN
@@ -56,10 +59,16 @@ public class GameManager : MonoBehaviour
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
 
         ScoreInit();
+
+        inputActions = new Vertical2DShooting();
+        inputActions.Enable();
+
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))    // Escキーが押された場合
+        if (inputActions.Player.Pause.triggered)
+
+            //if (Input.GetKey(KeyCode.Escape))    // Escキーが押された場合
         {
             // ゲーム中断のUIをアクティブ
             UI_Pause.SetActive(true);

@@ -101,6 +101,9 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    private Vertical2DShooting inputActions;
+
+
     void Start()
     {
         Application.targetFrameRate = 60; // 初期状態は-1になっている
@@ -116,6 +119,10 @@ public class PlayerController : MonoBehaviour
         PlayerHPDisplay();
 
         this.animator = GetComponent<Animator>();
+
+        inputActions = new Vertical2DShooting();
+        inputActions.Enable();
+
 
         // transform.DOShakePosition(duration: 0.3f, strength: 0.25f, vibrato: 30, randomness: 1, snapping: false, fadeOut: true);
     }
@@ -161,7 +168,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
         //スペースキーが押された場合
-        if (Input.GetKey(KeyCode.F) || isShotPressed)
+        if (inputActions.Player.Fire.triggered)
+            //if (Input.GetKey(KeyCode.F) || isShotPressed)
+
         {
             //弾の発射関数を呼ぶ
             PlayerShot(playerFirePos);
@@ -170,7 +179,9 @@ public class PlayerController : MonoBehaviour
             bulletInterval = 0;
 
         }
-        if (Input.GetKey(KeyCode.G) || isShotPressed2)
+        if (inputActions.Player.Fire3.triggered)
+
+            //if (Input.GetKey(KeyCode.G) || isShotPressed2)
         {
             //弾の発射関数を呼ぶ
             PlayerShot2(playerFirePos);
