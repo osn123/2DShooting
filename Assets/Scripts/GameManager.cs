@@ -142,7 +142,15 @@ public class GameManager : MonoBehaviour
     public void GameExit()
     {
         //ゲーム終了
-        Application.Quit();
+        //Application.Quit();
+        //SceneManager.LoadScene(0);
+
+        //一時停止を解除
+        Time.timeScale = pauseRelease;
+        //GamePauseRelease();
+        SceneManager.LoadScene(0);
+        //ステージのリロード
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     void ScoreInit()
     {

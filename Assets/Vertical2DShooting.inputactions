@@ -186,6 +186,28 @@
                 },
                 {
                     "name": "",
+                    "id": "bb6d6e85-5319-4e24-975d-10f9f775033f",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b41859f9-1868-4f41-b440-876f720260fd",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c1f7a91b-d0fd-4a62-997e-7fb9b69bf235",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -285,6 +307,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b877121a-ad21-4726-807c-252c57fd01d7",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "878a4692-75e2-4294-8da3-fc2518589a0b",
                     "path": "<HID::ZhiXu Tech. GamePad>/button2",
                     "interactions": "",
@@ -298,6 +331,17 @@
                     "name": "",
                     "id": "e655cd9a-1ad6-4b2e-80c6-0b99d20f9118",
                     "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5fe2324a-6dcb-40c0-9b3e-2238ee82a34b",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -331,6 +375,17 @@
                     "name": "",
                     "id": "983ec1cc-99f0-42ed-8959-3f899abd2a8d",
                     "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c30c632-f477-498f-9fab-f24e2e88fa31",
+                    "path": "<XInputController>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

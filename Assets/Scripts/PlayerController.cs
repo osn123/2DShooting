@@ -106,6 +106,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Screen.SetResolution(1080 / 2, 1920 / 2, FullScreenMode.Windowed);
+
         Application.targetFrameRate = 60; // 初期状態は-1になっている
         // プレイヤーのRigidbodyを取得
         playerRB = GetComponent<Rigidbody2D>();
@@ -179,7 +181,7 @@ public class PlayerController : MonoBehaviour
             bulletInterval = 0;
 
         }
-        if (inputActions.Player.Fire3.triggered)
+        if (inputActions.Player.Fire3.triggered || isShotPressed2)
 
             //if (Input.GetKey(KeyCode.G) || isShotPressed2)
         {
